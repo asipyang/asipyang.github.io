@@ -1,0 +1,28 @@
+<md-toolbar class="md-whiteframe-0dp md-tall" layout-align="center center" md-theme="side-menu" >
+	<span flex layout="column" layout-align="center center">
+		<!-- <a ng-href="./">
+			<img style="width:100%; margin-top:25px;" src="">
+		</a> -->
+	</span>
+	<div class="md-toolbar-tools md-toolbar-tools-bottom">
+		<md-list>
+			<md-list-item ng-click="navigateTo('/user-info')">
+				<md-icon><i class="material-icons">perm_identity</i></md-icon>
+    			<p >Asip Yang</p>
+			</md-list-item>
+		</md-list>
+	</div>
+</md-toolbar>
+<md-content md-theme="side-menu" >
+	<md-list>
+		<md-list-item ng-repeat="menuItem in menu track by menuItem.name" 
+						ng-click="navigateTo(menuItem.link, $index, $event)"
+						ng-class="{'selected':$index == menuSelected}">
+    		<md-icon><i class="material-icons">{{menuItem.icon}}</i></md-icon>
+    		<p >{{menuItem.name}}</p>
+
+    		<md-divider></md-divider>
+  		</md-list-item>
+  		<div></div>
+	</md-list>
+</md-content>

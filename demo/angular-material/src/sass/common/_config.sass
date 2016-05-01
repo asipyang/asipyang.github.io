@@ -1,0 +1,44 @@
+$grey-500: #9e9e9e
+
+$light-green-200: #C5E1A5
+$light-green-300: #AED581
+$light-green-400: #9CCC65
+
+$primary-200: $light-green-200
+$primary-300: $light-green-300
+$primary-400: $light-green-400
+
+$font-color: $grey-500
+$main-background: white
+
+
+$break-xs: 600px
+$break-sm: 960px
+$break-md: 1280px
+$break-lg: 1920px
+
+=respond-to($media)
+    @if $media == xs
+        @media only screen and (max-width: $break-xs - 1)
+            @content
+    @else if $media == gt-xs
+        @media only screen and (min-width: $break-xs)
+            @content
+    @else if $media == sm
+        @media only screen and (min-width: $break-xs) and (max-width: $break-sm - 1)
+            @content
+    @else if $media == gt-sm
+        @media only screen and (min-width: $break-sm)
+            @content
+    @else if $media == md
+        @media only screen and (min-width: $break-sm) and (max-width: $break-md - 1)
+            @content
+    @else if $media == gt-md
+        @media only screen and (min-width: $break-md)
+            @content
+    @else if $media == lg
+        @media only screen and (min-width: $break-md) and (max-width: $break-lg - 1)
+            @content
+    @else if $media == gt-lg
+        @media only screen and (min-width: $break-lg)
+            @content
