@@ -19,7 +19,8 @@ var rename = require("gulp-rename");
 var appSrc = [
 	'./src/js/app.js',
 	'./src/js/common/**/*.js',
-	'./src/js/ctrl/**/*.js'
+	'./src/js/ctrl/**/*.js',
+	'./src/js/resource/**/*.js',
 ];
 
 // Lint Task

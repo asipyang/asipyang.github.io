@@ -16,7 +16,12 @@ angular.module('asip.demo').controller('FrameCtrl', function(
 		$scope.menu = menu;
 		$scope.menuSelected = __getSelectedMenu();
 		$scope.title = __getTitle($scope.menuSelected);
-		$scope.dialogOpen = false;
+		$scope.dialog = {
+			open: false,
+			title: "",
+			tmpUrl: "",
+			data: {}
+		};
 
 		$scope.toggleSideNav = function() {
 			$mdSidenav('side-menu').toggle();
@@ -32,11 +37,13 @@ angular.module('asip.demo').controller('FrameCtrl', function(
 		};
 
 		$scope.closeDialog = function(){
-			$scope.dialogOpen = false;
+			$scope.dialog.open = false;
 		};
 		$rootScope.$on('openDialog', function(event, args) {
-			$scope.dialogOpen = true;
-			$scope.dialogTitle = args.title;
+			$scope.dialog.open = true;
+			$scope.dialog.title = args.title;
+			$scope.dialog.tmpUrl = args.tmplUrl;
+			$scope.dialog.data = args.data;
 			// if ($scope.dlgOpen) {
 			// 	$scope.$broadcast('refreshDialog', {
 			// 		data: args.data,
@@ -48,7 +55,7 @@ angular.module('asip.demo').controller('FrameCtrl', function(
 			// }
 			// $scope.dlgTitle = args.title;
 		});
-		$scope.$on('closeDialog', function(event, args) {
+		$rootScope.$on('closeDialog', function(event, args) {
 			$scope.closeDialog();
 			// if (args.refresh) {
 			// 	$scope.$broadcast('refreshView', {});

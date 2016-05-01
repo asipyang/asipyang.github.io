@@ -1,0 +1,38 @@
+[
+	{
+		"id": "pid1",
+		"name": "Product 1",
+		"description": "This is Product 1.",
+		"quantity": 10,
+		"onShelf": true,
+		"createTime": 1462076369337,
+		"updateTime": 1462076369337
+	},
+	{
+		"id": "pid2",
+		"name": "Product 2",
+		"description": "This is Product 2.",
+		"quantity": 20,
+		"onShelf": true,
+		"createTime": 1462076369337,
+		"updateTime": 1462076369337
+	},
+	{
+		"id": "pid3",
+		"name": "Product 3",
+		"description": "This is Product 3.",
+		"quantity": 30,
+		"onShelf": false,
+		"createTime": 1462076369337,
+		"updateTime": 1462076369337
+	},
+	{
+		"id": "pid4",
+		"name": "Product 4",
+		"description": "This is Product 4.",
+		"quantity": 40,
+		"onShelf": true,
+		"createTime": 1462076369337,
+		"updateTime": 1462076369337
+	}
+]

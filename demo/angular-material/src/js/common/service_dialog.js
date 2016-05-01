@@ -9,7 +9,12 @@ angular.module("asip.demo").factory('RightDialogServ', function($rootScope) {
 		});
 	};
 
+	var __closeDialog = function(){
+		$rootScope.$emit("closeDialog");
+	};
+
 	return {
-		openDialog: __openDialog
+		openDialog: __openDialog,
+		closeDialog: __closeDialog
 	};
 });

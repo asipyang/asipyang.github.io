@@ -1,16 +1,35 @@
 angular.module('asip.demo').controller('ProductsCtrl', function(
 	$scope,
 	$rootScope,
-	RightDialogServ) {
+	RightDialogServ,
+	ProductServ) {
 	"use strict";
 
+	var products;
+
 	var __initScope = function(){
-		$scope.openDialog = __openDialog;
+		$scope.products = products;
+
+		$scope.addPorduct = __addPorduct;
+		$scope.updateProduct = __updateProduct;
 	};
 
-	var __openDialog = function(){
-		RightDialogServ.openDialog("Edit");
+	var __addPorduct = function(){
+		__openDialog("Add Product");
 	};
-	__initScope();
 
+	var __updateProduct = function(_data){
+		__openDialog("Edit Product", _data);
+	};
+
+	var __openDialog = function(_title, _data){
+		_data = _data || {};
+
+		RightDialogServ.openDialog(_title, "template/_product_dlg.html", _data);
+	};
+
+	ProductServ.getProducts().then(function(_products){
+		products = _products;
+		__initScope();
+	});
 });

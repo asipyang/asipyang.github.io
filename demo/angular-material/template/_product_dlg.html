@@ -1,0 +1,40 @@
+<div id="product-dialog" class="" layout="column" ng-controller="ProductDlgCtrl">
+	<md-card ng-form="productForm">
+		<!-- <md-card-header class="etu-collapse-toggle" ng-click="toggleEvent(event.eventTime)">
+			<md-card-header-text layout="row">
+
+			</md-card-header-text>
+		</md-card-header> -->
+		<md-card-content>
+			<div layout="row" layout-wrap>
+				<md-input-container flex="50">
+			    	<label>Name</label>
+			        <input name="name" required ng-model="data.name">
+			        <div ng-messages="productForm.name.$error" ng-show="productForm.name.$dirty">
+				      <div ng-message="required">This is required!</div>
+				    </div>
+			    </md-input-container>
+			    <md-switch ng-model="data.onShelf" flex="50" layout-align="end center">On Shelf</md-switch>
+			    <md-input-container flex="100">
+			    	<label>Description</label>
+			        <input name="desc" ng-model="data.description">
+			    </md-input-container>
+			    <md-input-container flex="100">
+			    	<label>Quantity</label>
+			        <input name="quantity" required type="number" step="any" name="rate" ng-model="data.quantity" min="1"
+               max="5000"/>
+               		<div ng-messages="productForm.quantity.$error" ng-show="productForm.quantity.$dirty">
+				      <div ng-message="required">This is required!</div>
+				      <div ng-message="max">It should be smaller than 5000!</div>
+				      <div ng-message="min">It should be begger than 0!</div>
+				    </div>
+			    </md-input-container>
+			</div>
+		</md-card-content>
+	</md-card>
+	<md-divider></md-divider>
+	<div layout="row" layout-align="end center">
+		<md-button class="md-raised md-primary md-hue-3" ng-click="cancelHandler()">Cancel</md-button>
+		<md-button class="md-raised md-accent" ng-click="confirmHandler()">Confirm</md-button>
+	</div>
+</div>

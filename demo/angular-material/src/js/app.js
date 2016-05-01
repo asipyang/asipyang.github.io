@@ -6,7 +6,7 @@ var app = angular.module('asip.demo', [
 	// 'highcharts-ng'
 ]);
 
-app.config(function($routeProvider, $mdThemingProvider) {
+app.config(function($routeProvider, $mdThemingProvider, $provide) {
 	'use strict';
 	$routeProvider
 		.when('/dashboard', {
@@ -22,16 +22,20 @@ app.config(function($routeProvider, $mdThemingProvider) {
 		});
 
 	// defind the theme of the Angular Material
-	// $mdThemingProvider.theme('default')
-	// 	.primaryPalette('light-green', {
-	// 		'default': '700',
-	// 		'hue-1': '300',
-	// 		'hue-2': '400'
-	// 	})
-	// 	.accentPalette('orange', {
-	// 		'default': '600'
-	// 	})
-	// 	.warnPalette('red');
+	$mdThemingProvider.theme('default')
+		.primaryPalette('light-green', {
+			'default': '500',
+			'hue-1': '200',
+			'hue-2': '400',
+			'hue-3': '300'
+		})
+		.accentPalette('orange', {
+			'default': '600',
+			'hue-1': '200',
+			'hue-2': '100',
+			'hue-3': '400'
+		})
+		.warnPalette('red');
 
 	$mdThemingProvider.theme('side-menu')
 		.primaryPalette('light-green', {
@@ -47,4 +51,13 @@ app.config(function($routeProvider, $mdThemingProvider) {
 		.backgroundPalette('light-green', {
 			'default': '300'
 		});
+
+	$provide.decorator("BasicApi", function($delegate){
+		var origGet = $delegate.doGet;
+		$delegate.doGet = function(_uri, _params, _callbacks) {
+			return origGet(_uri+".json", _params, _callbacks);
+		};
+
+		return $delegate;
+	});
 });

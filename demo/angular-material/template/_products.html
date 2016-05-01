@@ -1,2 +1,20 @@
-products
-<md-button ng-click="openDialog()">Open</md-button>
+<div id="product-management" class="" layout="column">
+	<md-list >
+		<md-list-item class="md-2-line" ng-repeat="product in products track by product.id"
+			ng-click="updateProduct(product)">
+    		<div class="md-list-item-text" layout="row">
+    			<div layout="column" flex>
+	    			<h3>{{product.name}}</h3>
+	    			<p >{{product.description}}</p>
+    			</div>
+    			<div>{{product.quantity}}</div>
+    		</div>
+    		<!-- <md-divider></md-divider> -->
+  		</md-list-item>
+  		<div></div>
+	</md-list>
+</div>
+<md-button id="add-product-btn" class="md-fab" ng-click="addPorduct()">
+    <md-icon><i class="material-icons">add</i></md-icon>
+</md-button>
+<!-- <md-button ng-click="openDialog()">Open</md-button> -->
