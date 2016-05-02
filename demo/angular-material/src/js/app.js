@@ -2,16 +2,15 @@ var app = angular.module('asip.demo', [
 	'ngRoute',
 	'ngMessages',
 	'ngMaterial',
-	'ngAnimate'
-	// 'highcharts-ng'
+	'ngAnimate',
+	'highcharts-ng'
 ]);
 
-app.config(function($routeProvider, $mdThemingProvider, $provide) {
+app.config(function($routeProvider, $mdThemingProvider, $provide, highchartsNGProvider) {
 	'use strict';
 	$routeProvider
-		.when('/dashboard', {
-			templateUrl: 'template/_dashboard.html',
-			// controller: 'CodeGenController'
+		.when('/user-info', {
+			templateUrl: 'template/_user_info.html'
 		})
 		.when('/products', {
 			templateUrl: 'template/_products.html',
@@ -21,8 +20,12 @@ app.config(function($routeProvider, $mdThemingProvider, $provide) {
 			templateUrl: 'template/_orders.html',
 			controller: 'OrdersCtrl'
 		})
+		.when('/dashboard', {
+			templateUrl: 'template/_dashboard.html',
+			controller: 'DashboardCtrl'
+		})
 		.otherwise({
-			redirectTo: '/dashboard'
+			redirectTo: '/user-info'
 		});
 
 	// defind the theme of the Angular Material
@@ -56,6 +59,7 @@ app.config(function($routeProvider, $mdThemingProvider, $provide) {
 			'default': '300'
 		});
 
+	// append '.json' to every rest api for getting the demo data
 	$provide.decorator("BasicApi", function($delegate){
 		var origGet = $delegate.doGet;
 		$delegate.doGet = function(_uri, _params, _callbacks) {
@@ -64,4 +68,6 @@ app.config(function($routeProvider, $mdThemingProvider, $provide) {
 
 		return $delegate;
 	});
+
+	highchartsNGProvider.lazyLoad();
 });

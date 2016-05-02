@@ -6,10 +6,9 @@ angular.module('asip.demo').controller('FrameCtrl', function(
 	"use strict";
 
 	var menu = [
-		// {name: "Cat1", icon: "text_fields", subMenu: [{name: "Item1", link:""},{name: "Item2", link:""}]},
-		{name: "Dashboard", icon: "show_chart", link: "/dashboard"},
 		{name: "Products", icon: "card_giftcard", link: "/products"},
-		{name: "Orders", icon: "content_paste", link: "/orders"}
+		{name: "Orders", icon: "content_paste", link: "/orders"},
+		{name: "Dashboard", icon: "show_chart", link: "/dashboard"}
 	];
 
 	var __initScope = function(){

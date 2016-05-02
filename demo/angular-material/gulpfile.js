@@ -55,7 +55,7 @@ gulp.task('concat', ['lint'], function() {
 		.pipe(concat('app_bundle.js'))
 		.pipe(gulp.dest('./dist'))
 		.pipe(ngAnnotate())
-		//		.pipe(uglify())
+		.pipe(uglify())
 		.pipe(rename("app_bundle.min.js"))
 		.pipe(sourcemaps.write('./', {
 			addComment: true
