@@ -17,6 +17,10 @@ app.config(function($routeProvider, $mdThemingProvider, $provide) {
 			templateUrl: 'template/_products.html',
 			controller: 'ProductsCtrl'
 		})
+		.when('/orders', {
+			templateUrl: 'template/_orders.html',
+			controller: 'OrdersCtrl'
+		})
 		.otherwise({
 			redirectTo: '/dashboard'
 		});

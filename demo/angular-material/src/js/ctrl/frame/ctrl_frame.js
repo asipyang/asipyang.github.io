@@ -9,7 +9,7 @@ angular.module('asip.demo').controller('FrameCtrl', function(
 		// {name: "Cat1", icon: "text_fields", subMenu: [{name: "Item1", link:""},{name: "Item2", link:""}]},
 		{name: "Dashboard", icon: "show_chart", link: "/dashboard"},
 		{name: "Products", icon: "card_giftcard", link: "/products"},
-		{name: "Orders", icon: "content_paste", link: ""}
+		{name: "Orders", icon: "content_paste", link: "/orders"}
 	];
 
 	var __initScope = function(){
@@ -32,7 +32,7 @@ angular.module('asip.demo').controller('FrameCtrl', function(
 			$scope.menuSelected = $index;
 			$scope.title = __getTitle($scope.menuSelected);
 
-			//$scope.dlgOpen = false;
+			$scope.closeDialog();
 			$mdSidenav('side-menu').close();
 		};
 
@@ -44,22 +44,9 @@ angular.module('asip.demo').controller('FrameCtrl', function(
 			$scope.dialog.title = args.title;
 			$scope.dialog.tmpUrl = args.tmplUrl;
 			$scope.dialog.data = args.data;
-			// if ($scope.dlgOpen) {
-			// 	$scope.$broadcast('refreshDialog', {
-			// 		data: args.data,
-			// 	});
-			// } else {
-			// 	$scope.dlgOpen = true;
-			// 	$scope.dlgData = args.data;
-			// 	$scope.dlgUrl = args.url;
-			// }
-			// $scope.dlgTitle = args.title;
 		});
 		$rootScope.$on('closeDialog', function(event, args) {
 			$scope.closeDialog();
-			// if (args.refresh) {
-			// 	$scope.$broadcast('refreshView', {});
-			// }
 		});
 	};
 

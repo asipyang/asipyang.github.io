@@ -1,0 +1,49 @@
+<div id="order-management" class="" layout="column">
+	<section ng-repeat="daily in orders | orderBy:'-date' track by daily.date">
+		<md-subheader class="md-no-sticky" >{{daily.date | date:'yyyy/M/d'}}</md-subheader>
+		<md-card flex="100"
+			ng-repeat="order in daily.orders | orderBy:'-createTime' track by order.id"
+			ng-class="{'card-open':selectedOrder === order.id,
+						'md-whiteframe-z4':selectedOrder === order.id}">
+			<md-card-header ng-click="toggleOrder(order.id)">
+				<md-card-header-text layout="row">
+					<div class="md-body-2" flex="15">{{order.id}}</div>
+					<div class="md-body-1" flex>{{order.buyer}} {{event.msg.resource}}</div>
+					<div class="md-caption">{{order.createTime | date:'HH:mm'}}</div>
+				</md-card-header-text>
+			</md-card-header>
+			<md-card-content ng-if="selectedOrder === order.id">
+				<md-divider></md-divider>
+				<div class="order-detail md-body-1" layout="row" layout-xs="column">
+					<div flex="30" flex-xs="100" layout="row" layout-wrap>
+						<table>
+							<tr>
+								<td class="md-body-2">Order ID:</td>
+								<td>{{order.id}}</td>
+							</tr>
+							<tr>
+								<td class="md-body-2">Buyer Name:</td>
+								<td>{{order.buyer}}</td>
+							</tr>
+							<tr>
+								<td class="md-body-2">Total Amount:</td>
+								<td>{{order.amount | currency:"$":0}}</td>
+							</tr>
+						</table>
+					</div>
+					<div flex="70" flex-xs="100" layout="row" layout-wrap>
+						<div flex="100">
+							<span class="md-body-2">Date: </span>
+							<span>{{order.createTime | date:'yyyy/MM/dd HH:mm:ss'}}</span>
+						</div>
+						<div class="md-body-2" flex="100">Purchased Products:</div>
+						<div flex="33" class="pitem" ng-repeat="product in order.products track by product.id">
+							<div>{{product.name}} ({{product.id}})</div>
+							<div>{{product.price  | currency:"$":0}} X {{product.number}}</div>
+						</div>
+					</div>
+				</div>
+			</md-card-content>
+		</md-card>
+	</section>
+</div>

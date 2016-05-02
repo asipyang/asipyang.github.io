@@ -17,6 +17,10 @@ app.config(function($routeProvider, $mdThemingProvider, $provide) {
 			templateUrl: 'template/_products.html',
 			controller: 'ProductsCtrl'
 		})
+		.when('/orders', {
+			templateUrl: 'template/_orders.html',
+			controller: 'OrdersCtrl'
+		})
 		.otherwise({
 			redirectTo: '/dashboard'
 		});
@@ -161,6 +165,32 @@ angular.module("asip.demo").factory('Config', function($window) {
 		getApiServerUrl: __getApiServerUrl
 	};
 });
+angular.module("asip.demo").factory('DateServ', function() {
+	'use strict';
+
+	var __addDay = function(_date, _day){
+		var result = new Date(_date);
+		result.setDate(result.getDate() + _day);
+
+		return result;
+	};
+
+	var __roundToDay = function(_date){
+		var result = new Date(_date);
+
+		result.setHours(0);
+		result.setMinutes(0);
+		result.setSeconds(0);
+		result.setMilliseconds(0);
+
+		return result;
+	};
+
+	return {
+		addDay: __addDay,
+		roundToDay: __roundToDay
+	};
+});
 angular.module("asip.demo").factory('RightDialogServ', function($rootScope) {
 	'use strict';
 
@@ -180,6 +210,128 @@ angular.module("asip.demo").factory('RightDialogServ', function($rootScope) {
 		openDialog: __openDialog,
 		closeDialog: __closeDialog
 	};
+});
+angular.module('asip.demo').controller('OrdersCtrl', function(
+	$scope,
+	OrderServ,
+	DateServ) {
+	"use strict";
+
+	var orders;
+
+	var __initScope = function() {
+		$scope.orders = orders;
+		$scope.selectedOrder = -1;
+
+		$scope.toggleOrder = __toggleOrder;
+	};
+
+	var __transformOrders = function(_orders){
+		var orderMap = {}, displayOrders = [];
+		var i, order, dateTime, keys;
+
+		for(i=0; i < _orders.length; i++){
+			order = _orders[i];
+			dateTime = DateServ.roundToDay(order.createTime);
+			orderMap[dateTime] = orderMap[dateTime] || [];
+			orderMap[dateTime].push(order);
+		}
+
+		keys = Object.keys(orderMap);
+		for(i=0; i < keys.length; i++){
+			displayOrders.push({
+				date: new Date(keys[i]),
+				orders: orderMap[ keys[i] ]
+			});
+		}
+		return displayOrders;
+	};
+
+	var __toggleOrder = function(_id){
+		if($scope.selectedOrder === _id){
+			$scope.selectedOrder = -1;
+		}
+		else{
+			$scope.selectedOrder = _id;
+			// AnchorScroll.scrollToWithDelay(300, _id.toString(), "main-md-content");
+		}
+	};
+
+
+	OrderServ.getOrders().then(function(_orders){
+		orders = __transformOrders(_orders);
+		__initScope();
+	});
+});
+angular.module('asip.demo').controller('FrameCtrl', function(
+	$scope,
+	$rootScope,
+	$location,
+	$mdSidenav) {
+	"use strict";
+
+	var menu = [
+		// {name: "Cat1", icon: "text_fields", subMenu: [{name: "Item1", link:""},{name: "Item2", link:""}]},
+		{name: "Dashboard", icon: "show_chart", link: "/dashboard"},
+		{name: "Products", icon: "card_giftcard", link: "/products"},
+		{name: "Orders", icon: "content_paste", link: "/orders"}
+	];
+
+	var __initScope = function(){
+		$scope.menu = menu;
+		$scope.menuSelected = __getSelectedMenu();
+		$scope.title = __getTitle($scope.menuSelected);
+		$scope.dialog = {
+			open: false,
+			title: "",
+			tmpUrl: "",
+			data: {}
+		};
+
+		$scope.toggleSideNav = function() {
+			$mdSidenav('side-menu').toggle();
+		};
+		$scope.navigateTo = function(link, $index, $event) {
+			$location.path(link);
+
+			$scope.menuSelected = $index;
+			$scope.title = __getTitle($scope.menuSelected);
+
+			$scope.closeDialog();
+			$mdSidenav('side-menu').close();
+		};
+
+		$scope.closeDialog = function(){
+			$scope.dialog.open = false;
+		};
+		$rootScope.$on('openDialog', function(event, args) {
+			$scope.dialog.open = true;
+			$scope.dialog.title = args.title;
+			$scope.dialog.tmpUrl = args.tmplUrl;
+			$scope.dialog.data = args.data;
+		});
+		$rootScope.$on('closeDialog', function(event, args) {
+			$scope.closeDialog();
+		});
+	};
+
+	var __getSelectedMenu = function(){
+		var i;
+		var currentPath = $location.path();
+
+		for(i=0; i<menu.length; i++){
+			if(currentPath === menu[i].link){
+				return i;
+			}
+		}
+		return -1;
+	};
+
+	var __getTitle = function(index){
+		return index > -1 && index < menu.length? menu[index].name: "";
+	};
+
+	__initScope();
 });
 angular.module('asip.demo').controller('ProductDlgCtrl', function(
 	$scope,
@@ -216,7 +368,6 @@ angular.module('asip.demo').controller('ProductDlgCtrl', function(
 });
 angular.module('asip.demo').controller('ProductsCtrl', function(
 	$scope,
-	$rootScope,
 	RightDialogServ,
 	ProductServ) {
 	"use strict";
@@ -249,88 +400,48 @@ angular.module('asip.demo').controller('ProductsCtrl', function(
 		__initScope();
 	});
 });
-angular.module('asip.demo').controller('FrameCtrl', function(
-	$scope,
-	$rootScope,
-	$location,
-	$mdSidenav) {
-	"use strict";
+angular.module("asip.demo").factory('OrderRepo', function(BasicApi) {
+	'use strict';
 
-	var menu = [
-		// {name: "Cat1", icon: "text_fields", subMenu: [{name: "Item1", link:""},{name: "Item2", link:""}]},
-		{name: "Dashboard", icon: "show_chart", link: "/dashboard"},
-		{name: "Products", icon: "card_giftcard", link: "/products"},
-		{name: "Orders", icon: "content_paste", link: ""}
-	];
-
-	var __initScope = function(){
-		$scope.menu = menu;
-		$scope.menuSelected = __getSelectedMenu();
-		$scope.title = __getTitle($scope.menuSelected);
-		$scope.dialog = {
-			open: false,
-			title: "",
-			tmpUrl: "",
-			data: {}
-		};
-
-		$scope.toggleSideNav = function() {
-			$mdSidenav('side-menu').toggle();
-		};
-		$scope.navigateTo = function(link, $index, $event) {
-			$location.path(link);
-
-			$scope.menuSelected = $index;
-			$scope.title = __getTitle($scope.menuSelected);
-
-			//$scope.dlgOpen = false;
-			$mdSidenav('side-menu').close();
-		};
-
-		$scope.closeDialog = function(){
-			$scope.dialog.open = false;
-		};
-		$rootScope.$on('openDialog', function(event, args) {
-			$scope.dialog.open = true;
-			$scope.dialog.title = args.title;
-			$scope.dialog.tmpUrl = args.tmplUrl;
-			$scope.dialog.data = args.data;
-			// if ($scope.dlgOpen) {
-			// 	$scope.$broadcast('refreshDialog', {
-			// 		data: args.data,
-			// 	});
-			// } else {
-			// 	$scope.dlgOpen = true;
-			// 	$scope.dlgData = args.data;
-			// 	$scope.dlgUrl = args.url;
-			// }
-			// $scope.dlgTitle = args.title;
-		});
-		$rootScope.$on('closeDialog', function(event, args) {
-			$scope.closeDialog();
-			// if (args.refresh) {
-			// 	$scope.$broadcast('refreshView', {});
-			// }
-		});
+	var __getOrders = function(_callbacks) {
+		var uri = "/orders";
+		return BasicApi.doGet(uri, {}, _callbacks);
 	};
 
-	var __getSelectedMenu = function(){
-		var i;
-		var currentPath = $location.path();
 
-		for(i=0; i<menu.length; i++){
-			if(currentPath === menu[i].link){
-				return i;
+	return {
+		getOrders: __getOrders
+	};
+});
+angular.module("asip.demo").factory('OrderServ', function(OrderRepo) {
+	'use strict';
+
+	var orders = [];
+
+	var __getOrders = function(_updateUI) {
+		var processData = {
+			success: function(_returnData){
+				var i;
+				orders.splice(0, orders.length);
+				for(i=0; i < _returnData.length; i++){
+					orders.push(_returnData[i]);
+				}
 			}
-		}
-		return -1;
+		};
+		var callbacks = {};
+
+		callbacks.updateUI = _updateUI;
+		callbacks.processData = processData;
+
+		return OrderRepo.getOrders(callbacks).then(function(){
+			return orders;
+		});
 	};
 
-	var __getTitle = function(index){
-		return index > -1 && index < menu.length? menu[index].name: "";
-	};
 
-	__initScope();
+	return {
+		getOrders: __getOrders
+	};
 });
 angular.module("asip.demo").factory('ProductRepo', function(BasicApi) {
 	'use strict';

@@ -48,8 +48,10 @@ body {
 }
 
 #main-md-content {
-  margin: 4% 0;
   padding: 0 4%;
+}
+#main-md-content > div {
+  margin: 4% 0;
 }
 @media only screen and (max-width: 599px) {
   #main-md-content {
@@ -193,4 +195,79 @@ body {
 }
 #product-dialog .md-button {
   color: white;
+}
+
+#order-management .md-subheader, #order-management md-card {
+  margin: 0px 20%;
+}
+@media only screen and (max-width: 599px) {
+  #order-management .md-subheader, #order-management md-card {
+    margin: 0px 2%;
+  }
+}
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+  #order-management .md-subheader, #order-management md-card {
+    margin: 0px 15%;
+  }
+}
+
+#order-management section {
+  margin-bottom: 20px;
+}
+#order-management .md-subheader {
+  background-color: transparent;
+}
+#order-management md-card {
+  -moz-transition: margin 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -o-transition: margin 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -webkit-transition: margin 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: margin 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background-color: #8BC34A;
+  color: white;
+}
+#order-management md-card.card-open {
+  margin: 20px 0px;
+}
+@media only screen and (min-width: 1280px) {
+  #order-management md-card.card-open {
+    margin: 20px 10%;
+  }
+}
+#order-management md-card:not(.card-open):hover {
+  background-color: #9CCC65;
+}
+#order-management md-card md-card-header {
+  padding: 16px 20px;
+}
+#order-management md-card md-card-header .amount {
+  padding: 5px;
+  text-align: right;
+}
+#order-management md-card md-card-header:focus {
+  outline-width: 0px;
+}
+#order-management md-card md-card-header-text div:nth-child(2) {
+  padding: 0 10px;
+}
+#order-management md-card md-card-content {
+  padding: 0;
+}
+#order-management md-card .order-detail {
+  padding: 16px 20px;
+}
+#order-management md-card table {
+  border-collapse: collapse;
+}
+#order-management md-card td {
+  padding: 1px 0px;
+}
+#order-management md-card td:nth-child(2) {
+  padding-left: 5px;
+  word-break: break-word;
+}
+#order-management md-card .pitem {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 3px;
+  background-color: #9CCC65;
 }

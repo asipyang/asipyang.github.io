@@ -1,6 +1,5 @@
 angular.module('asip.demo').controller('ProductsCtrl', function(
 	$scope,
-	$rootScope,
 	RightDialogServ,
 	ProductServ) {
 	"use strict";
