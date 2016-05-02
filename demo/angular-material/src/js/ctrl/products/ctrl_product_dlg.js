@@ -6,11 +6,13 @@ angular.module('asip.demo').controller('ProductDlgCtrl', function(
 
 	var __initScope = function(){
 		$scope.$watch('dialog.data', function(_new, _old){
+			__resetState();
 			$scope.data = angular.copy(_new);
 		}, true);
 
 		$scope.confirmHandler = __confirmHandler;
 		$scope.cancelHandler = __cancelHandler;
+		$scope.deleteHandler =__deleteHandler;
 	};
 
 	var __confirmHandler = function(){
@@ -27,6 +29,16 @@ angular.module('asip.demo').controller('ProductDlgCtrl', function(
 
 	var __cancelHandler = function(){
 		RightDialogServ.closeDialog();
+	};
+
+	var __deleteHandler = function(){
+		ProductServ.deleteProduct($scope.data);
+		RightDialogServ.closeDialog();
+	};
+
+	var __resetState = function(){
+		$scope.productForm.$setPristine();
+		$scope.deleteForSure = false;
 	};
 
 	__initScope();

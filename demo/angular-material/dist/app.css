@@ -145,6 +145,7 @@ body {
 }
 
 #product-management md-list {
+  padding: 0px;
   background-color: #8BC34A;
   color: white;
 }
@@ -153,6 +154,10 @@ body {
 }
 #product-management md-list p {
   color: #C5E1A5;
+}
+#product-management .nodata-sign {
+  text-align: center;
+  margin-top: 30px;
 }
 
 #add-product-btn {
@@ -195,6 +200,24 @@ body {
 }
 #product-dialog .md-button {
   color: white;
+}
+#product-dialog .slide-in {
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+#product-dialog .slide-in.ng-hide-add-active {
+  min-width: 0%;
+  max-width: 0%;
+}
+#product-dialog .slide-in.ng-hide-remove {
+  min-width: 0%;
+  max-width: 0%;
+}
+#product-dialog .slide-in.ng-hide-remove-active {
+  min-width: 88px;
+  max-width: 100%;
 }
 
 #order-management .md-subheader, #order-management md-card {

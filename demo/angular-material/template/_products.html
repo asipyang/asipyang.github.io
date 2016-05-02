@@ -9,12 +9,13 @@
     			</div>
     			<div>{{product.quantity}}</div>
     		</div>
-    		<!-- <md-divider></md-divider> -->
   		</md-list-item>
   		<div></div>
 	</md-list>
+  <div class="nodata-sign" ng-if="products.length <= 0">
+    <md-button ng-click="addPorduct()">There is no data. Add one!</md-button>
+  </div>
 </div>
 <md-button id="add-product-btn" class="md-fab" ng-click="addPorduct()">
     <md-icon><i class="material-icons">add</i></md-icon>
 </md-button>
-<!-- <md-button ng-click="openDialog()">Open</md-button> -->

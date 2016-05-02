@@ -12,8 +12,10 @@ angular.module("asip.demo").factory('ProductServ', function(ProductRepo) {
 	var __deleteProduct = function(_product) {
 		// not deleting for real
 		var i;
-		for(i=0; i < products.length && _product.id === products[i].id; i++){
-			products.splice(i,1);
+		for(i=0; (i < products.length); i++){
+			if(_product.id === products[i].id){
+				products.splice(i,1);
+			}
 		}
 	};
 

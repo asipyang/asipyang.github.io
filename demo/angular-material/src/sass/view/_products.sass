@@ -1,5 +1,6 @@
 #product-management
 	md-list
+		padding: 0px
 		background-color: $primary-500
 		color: $font-color
 
@@ -7,6 +8,10 @@
 			color: $font-color
 		p
 			color: $font-color-light
+
+	.nodata-sign
+		text-align: center
+		margin-top: 30px
 
 #add-product-btn
 	position: absolute
@@ -42,3 +47,17 @@
 	.md-button
 		color: $font-color
 
+	.slide-in
+		+single-transition(all, 0.1s, linear)
+
+		&.ng-hide-add-active
+			min-width: 0%
+			max-width: 0%
+
+		&.ng-hide-remove
+			min-width: 0%
+			max-width: 0%
+
+		&.ng-hide-remove-active
+			min-width: 88px
+			max-width: 100%

@@ -211,6 +211,85 @@ angular.module("asip.demo").factory('RightDialogServ', function($rootScope) {
 		closeDialog: __closeDialog
 	};
 });
+angular.module('asip.demo').controller('ProductDlgCtrl', function(
+	$scope,
+	RightDialogServ,
+	ProductServ) {
+	"use strict";
+
+	var __initScope = function(){
+		$scope.$watch('dialog.data', function(_new, _old){
+			__resetState();
+			$scope.data = angular.copy(_new);
+		}, true);
+
+		$scope.confirmHandler = __confirmHandler;
+		$scope.cancelHandler = __cancelHandler;
+		$scope.deleteHandler =__deleteHandler;
+	};
+
+	var __confirmHandler = function(){
+		if($scope.productForm.$valid){
+			if($scope.data.id){
+				ProductServ.updateProduct($scope.data);
+			}else{
+				ProductServ.addProduct($scope.data);
+			}
+
+			RightDialogServ.closeDialog();
+		}
+	};
+
+	var __cancelHandler = function(){
+		RightDialogServ.closeDialog();
+	};
+
+	var __deleteHandler = function(){
+		ProductServ.deleteProduct($scope.data);
+		RightDialogServ.closeDialog();
+	};
+
+	var __resetState = function(){
+		$scope.productForm.$setPristine();
+		$scope.deleteForSure = false;
+	};
+
+	__initScope();
+});
+angular.module('asip.demo').controller('ProductsCtrl', function(
+	$scope,
+	RightDialogServ,
+	ProductServ) {
+	"use strict";
+
+	var products;
+
+	var __initScope = function(){
+		$scope.products = products;
+
+		$scope.addPorduct = __addPorduct;
+		$scope.updateProduct = __updateProduct;
+	};
+
+	var __addPorduct = function(){
+		__openDialog("Add Product");
+	};
+
+	var __updateProduct = function(_data){
+		__openDialog("Edit Product", _data);
+	};
+
+	var __openDialog = function(_title, _data){
+		_data = _data || {};
+
+		RightDialogServ.openDialog(_title, "template/_product_dlg.html", _data);
+	};
+
+	ProductServ.getProducts().then(function(_products){
+		products = _products;
+		__initScope();
+	});
+});
 angular.module('asip.demo').controller('OrdersCtrl', function(
 	$scope,
 	OrderServ,
@@ -253,7 +332,6 @@ angular.module('asip.demo').controller('OrdersCtrl', function(
 		}
 		else{
 			$scope.selectedOrder = _id;
-			// AnchorScroll.scrollToWithDelay(300, _id.toString(), "main-md-content");
 		}
 	};
 
@@ -333,73 +411,6 @@ angular.module('asip.demo').controller('FrameCtrl', function(
 
 	__initScope();
 });
-angular.module('asip.demo').controller('ProductDlgCtrl', function(
-	$scope,
-	RightDialogServ,
-	ProductServ) {
-	"use strict";
-
-	var __initScope = function(){
-		$scope.$watch('dialog.data', function(_new, _old){
-			$scope.data = angular.copy(_new);
-		}, true);
-
-		$scope.confirmHandler = __confirmHandler;
-		$scope.cancelHandler = __cancelHandler;
-	};
-
-	var __confirmHandler = function(){
-		if($scope.productForm.$valid){
-			if($scope.data.id){
-				ProductServ.updateProduct($scope.data);
-			}else{
-				ProductServ.addProduct($scope.data);
-			}
-
-			RightDialogServ.closeDialog();
-		}
-	};
-
-	var __cancelHandler = function(){
-		RightDialogServ.closeDialog();
-	};
-
-	__initScope();
-});
-angular.module('asip.demo').controller('ProductsCtrl', function(
-	$scope,
-	RightDialogServ,
-	ProductServ) {
-	"use strict";
-
-	var products;
-
-	var __initScope = function(){
-		$scope.products = products;
-
-		$scope.addPorduct = __addPorduct;
-		$scope.updateProduct = __updateProduct;
-	};
-
-	var __addPorduct = function(){
-		__openDialog("Add Product");
-	};
-
-	var __updateProduct = function(_data){
-		__openDialog("Edit Product", _data);
-	};
-
-	var __openDialog = function(_title, _data){
-		_data = _data || {};
-
-		RightDialogServ.openDialog(_title, "template/_product_dlg.html", _data);
-	};
-
-	ProductServ.getProducts().then(function(_products){
-		products = _products;
-		__initScope();
-	});
-});
 angular.module("asip.demo").factory('OrderRepo', function(BasicApi) {
 	'use strict';
 
@@ -470,8 +481,10 @@ angular.module("asip.demo").factory('ProductServ', function(ProductRepo) {
 	var __deleteProduct = function(_product) {
 		// not deleting for real
 		var i;
-		for(i=0; i < products.length && _product.id === products[i].id; i++){
-			products.splice(i,1);
+		for(i=0; (i < products.length); i++){
+			if(_product.id === products[i].id){
+				products.splice(i,1);
+			}
 		}
 	};
 
