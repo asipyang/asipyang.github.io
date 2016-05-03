@@ -10,18 +10,18 @@ app.config(function($routeProvider, $mdThemingProvider, $provide, highchartsNGPr
 	'use strict';
 	$routeProvider
 		.when('/user-info', {
-			templateUrl: 'template/_user_info.html'
+			templateUrl: 'template/user_info.html'
 		})
 		.when('/products', {
-			templateUrl: 'template/_products.html',
+			templateUrl: 'template/products.html',
 			controller: 'ProductsCtrl'
 		})
 		.when('/orders', {
-			templateUrl: 'template/_orders.html',
+			templateUrl: 'template/orders.html',
 			controller: 'OrdersCtrl'
 		})
 		.when('/dashboard', {
-			templateUrl: 'template/_dashboard.html',
+			templateUrl: 'template/dashboard.html',
 			controller: 'DashboardCtrl'
 		})
 		.otherwise({

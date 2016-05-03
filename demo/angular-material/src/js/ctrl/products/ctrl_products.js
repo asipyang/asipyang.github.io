@@ -24,7 +24,7 @@ angular.module('asip.demo').controller('ProductsCtrl', function(
 	var __openDialog = function(_title, _data){
 		_data = _data || {};
 
-		RightDialogServ.openDialog(_title, "template/_product_dlg.html", _data);
+		RightDialogServ.openDialog(_title, "template/product_dlg.html", _data);
 	};
 
 	ProductServ.getProducts().then(function(_products){
