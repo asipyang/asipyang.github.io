@@ -12,7 +12,7 @@
 					<div class="md-caption">{{order.createTime | date:'HH:mm'}}</div>
 				</md-card-header-text>
 			</md-card-header>
-			<md-card-content ng-if="selectedOrder === order.id">
+			<md-card-content ng-if="selectedOrder === order.id" class="collapse">
 				<md-divider></md-divider>
 				<div class="order-detail md-body-1" layout="row" layout-xs="column">
 					<div flex="30" flex-xs="100" layout="row" layout-wrap>

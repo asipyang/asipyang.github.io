@@ -1,0 +1,13 @@
+.collapse.ng-enter
+	+single-transition(all, 0.3s, ease)
+	overflow: hidden
+	max-height: 0px
+.collapse.ng-enter.ng-enter-active
+	max-height: 500px
+
+.collapse.ng-leave
+	+single-transition(all, 0.3s, ease)
+	max-height: 500px
+	overflow: hidden
+.collapse.ng-leave.ng-leave-active
+	max-height: 0px
