@@ -7,6 +7,10 @@ body {
   display: none !important;
 }
 
+.layout-column > .flex-100, .layout-xs-column > .flex-xs-100 {
+  flex: 1 1 auto;
+}
+
 .collapse.ng-enter {
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;

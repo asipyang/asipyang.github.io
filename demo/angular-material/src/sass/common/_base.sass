@@ -4,3 +4,12 @@ body
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
 	display: none !important
+
+%flex-100
+	flex: 1 1 auto
+
+.layout-column > .flex-100
+	@extend %flex-100
+
+.layout-xs-column > .flex-xs-100
+	@extend %flex-100
