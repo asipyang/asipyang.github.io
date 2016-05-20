@@ -1,0 +1,16 @@
+#main-container {
+	width: 100%;
+	padding-bottom: 75%;
+	background-color: blue;
+	position: relative;
+}
+
+.img-wrapper {
+	/*width: 10%;
+	padding-bottom: 10%;*/
+	width: 50px;
+	height: 60px;
+	display: inline-block;
+	background-color: red;
+	position: absolute;
+}
