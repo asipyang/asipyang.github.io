@@ -1,6 +1,7 @@
 app.act = app.act || {};
 app.act.ActionType = {
-	ADD_IMG_WRAPPER: "ADD_IMG_WRAPPER"
+	ADD_IMG_WRAPPER: "ADD_IMG_WRAPPER",
+	UPDATE_IMG_WRAPPER: "UPDATE_IMG_WRAPPER"
 };
 app.act.Action = function(type, title, data){
 	"use strict";
@@ -16,10 +17,20 @@ app.actionCreator = (function(){
 	var ActionType = app.act.ActionType;
 
 	var addImgWrapper = function(event){
-		dispatcher.sendAction(new app.act.Action(ActionType.ADD_IMG_WRAPPER, ActionType.ADD_IMG_WRAPPER, event));
+		var data = {
+			initX: event.offsetX,
+			initY: event.offsetY
+		};
+
+		dispatcher.sendAction(new app.act.Action(ActionType.ADD_IMG_WRAPPER, ActionType.ADD_IMG_WRAPPER, data));
+	};
+
+	var updateImgWrapper = function(data){
+		dispatcher.sendAction(new app.act.Action(ActionType.UPDATE_IMG_WRAPPER, ActionType.UPDATE_IMG_WRAPPER, data));
 	};
 
 	return {
-		addImgWrapper: addImgWrapper
+		addImgWrapper: addImgWrapper,
+		updateImgWrapper: updateImgWrapper
 	};
 })();

@@ -20,9 +20,8 @@ app.controller = (function(){
 		body.appendChild(container);
 	};
 
-	var displayImgWrappers = function(mainContainer){
+	var displayImgWrappers = function(models){
 		var i;
-		var models = mainContainer.imgWrappers;
 
 		for(i=0; i < models.length; i++){
 			if(imgWrapperMap[models[i]._uid]){
@@ -30,7 +29,6 @@ app.controller = (function(){
 			}else{
 				insertImgWrapper( models[i] );
 			}
-			imgWrapperMap[models[i]._uid] = models[i];
 		}
 	};
 
@@ -41,10 +39,18 @@ app.controller = (function(){
 		imgW.className += "img-wrapper";
 		imgW.style.transform = "translate("+model.x0+"px,"+model.y0+"px)";
 		container.appendChild(imgW);
+
+		imgWrapperMap[model._uid] = imgW;
+
+		actionCreator.updateImgWrapper({
+			width: imgW.offsetWidth,
+			height: imgW.offsetHeight
+		});
 	};
 
 	var updateImgWrapper = function(model){
-
+		var imgW = imgWrapperMap[ model._uid ];
+		imgW.style.transform = "translate("+model.x0+"px,"+model.y0+"px)";
 	};
 
 	return {
