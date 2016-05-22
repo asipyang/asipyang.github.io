@@ -12,12 +12,12 @@ app.controller = (function(){
 	};
 
 	var displayMainContainer = function(mainContainer){
-		var body = document.getElementsByTagName("body")[0];
+		var content = document.getElementById("content");
 		var container = document.createElement("div");
 		container.setAttribute("id","main-container");
 		// container.onclick = actionCreator.clickToAddImgWrapper;
 
-		body.appendChild(container);
+		content.appendChild(container);
 
 		actionCreator.updateMainContainer({
 			width: container.offsetWidth,
@@ -43,7 +43,7 @@ app.controller = (function(){
 
 		imgW.className += "img-wrapper";
 		imgW.style.transform = "translate("+model.x0+"px,"+model.y0+"px)";
-		imgW.textContent = model._uid;
+		imgW.style.backgroundImage = "url(img/"+model._uid+".png)";
 		container.appendChild(imgW);
 
 		imgWrapperMap[model._uid] = imgW;

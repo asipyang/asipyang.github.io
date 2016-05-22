@@ -28,5 +28,12 @@ app.init = function(){
 			initY: Math.floor((Math.random() * maxY)),
 		});
 		count --;
-	}, 500);
+	}, 10000);
+
+	// preload the images
+	var i, img, imgNum = 12;
+	for(i=1; i <= imgNum; i++){
+		img = new Image();
+		img.src = "img/"+i+".png";
+	}
 };
