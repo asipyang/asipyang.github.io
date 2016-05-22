@@ -11,4 +11,22 @@ app.init = function(){
 		listener(container);
 	});
 
+	var count = 12;
+	var maxX = document.getElementById("main-container").offsetWidth;
+	var maxY = document.getElementById("main-container").offsetHeight;
+	var intervalId = setInterval(function(){
+
+		if(count === 0){
+			clearInterval(intervalId);
+			app.actionCreator.displayAllImgWrapper(true);
+			console.log("stop");
+			return;
+		}
+
+		app.actionCreator.addImgWrapper({
+			initX: Math.floor((Math.random() * maxX)),
+			initY: Math.floor((Math.random() * maxY)),
+		});
+		count --;
+	}, 500);
 };

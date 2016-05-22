@@ -1,7 +1,9 @@
 app.act = app.act || {};
 app.act.ActionType = {
 	ADD_IMG_WRAPPER: "ADD_IMG_WRAPPER",
-	UPDATE_IMG_WRAPPER: "UPDATE_IMG_WRAPPER"
+	DISPLAY_ALL_IMG_WRAPPER: "DISPLAY_ALL_IMG_WRAPPER",
+	UPDATE_IMG_WRAPPER: "UPDATE_IMG_WRAPPER",
+	UPDATE_MAIN_CONTAINER: "UPDATE_MAIN_CONTAINER"
 };
 app.act.Action = function(type, title, data){
 	"use strict";
@@ -16,7 +18,11 @@ app.actionCreator = (function(){
 	var dispatcher = app.dispatcher;
 	var ActionType = app.act.ActionType;
 
-	var addImgWrapper = function(event){
+	var addImgWrapper = function(data){
+		dispatcher.sendAction(new app.act.Action(ActionType.ADD_IMG_WRAPPER, ActionType.ADD_IMG_WRAPPER, data));
+	};
+
+	var clickToAddImgWrapper = function(event){
 		var data = {
 			initX: event.layerX,
 			initY: event.layerY
@@ -25,12 +31,23 @@ app.actionCreator = (function(){
 		dispatcher.sendAction(new app.act.Action(ActionType.ADD_IMG_WRAPPER, ActionType.ADD_IMG_WRAPPER, data));
 	};
 
+	var displayAllImgWrapper = function(data){
+		dispatcher.sendAction(new app.act.Action(ActionType.DISPLAY_ALL_IMG_WRAPPER, ActionType.DISPLAY_ALL_IMG_WRAPPER, data));
+	};
+
 	var updateImgWrapper = function(data){
 		dispatcher.sendAction(new app.act.Action(ActionType.UPDATE_IMG_WRAPPER, ActionType.UPDATE_IMG_WRAPPER, data));
 	};
 
+	var updateMainContainer = function(data){
+		dispatcher.sendAction(new app.act.Action(ActionType.UPDATE_MAIN_CONTAINER, ActionType.UPDATE_MAIN_CONTAINER, data));
+	};
+
 	return {
 		addImgWrapper: addImgWrapper,
-		updateImgWrapper: updateImgWrapper
+		clickToAddImgWrapper: clickToAddImgWrapper,
+		displayAllImgWrapper: displayAllImgWrapper,
+		updateImgWrapper: updateImgWrapper,
+		updateMainContainer: updateMainContainer
 	};
 })();

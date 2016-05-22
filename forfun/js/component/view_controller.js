@@ -15,9 +15,14 @@ app.controller = (function(){
 		var body = document.getElementsByTagName("body")[0];
 		var container = document.createElement("div");
 		container.setAttribute("id","main-container");
-		container.onclick = actionCreator.addImgWrapper;
+		// container.onclick = actionCreator.clickToAddImgWrapper;
 
 		body.appendChild(container);
+
+		actionCreator.updateMainContainer({
+			width: container.offsetWidth,
+			height: container.offsetHeight
+		});
 	};
 
 	var displayImgWrappers = function(models){
@@ -55,6 +60,7 @@ app.controller = (function(){
 	var updateImgWrapper = function(model){
 		var imgW = imgWrapperMap[ model._uid ];
 		imgW.style.transform = "translate("+model.x0+"px,"+model.y0+"px)";
+		imgW.style.visibility = model.show? "visible" : "hidden";
 	};
 
 	return {
