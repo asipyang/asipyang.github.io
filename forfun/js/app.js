@@ -11,24 +11,27 @@ app.init = function(){
 		listener(container);
 	});
 
-	var count = 12;
+	var count = 120;
 	var maxX = document.getElementById("main-container").offsetWidth;
 	var maxY = document.getElementById("main-container").offsetHeight;
-	var intervalId = setInterval(function(){
+	var timer = new app.store.Timer(count, dispatcher, app.controller.getTimerListeners(), ActionType);
 
+	var intervalId = setInterval(function(){
 		if(count === 0){
 			clearInterval(intervalId);
 			app.actionCreator.displayAllImgWrapper(true);
-			console.log("stop");
 			return;
 		}
 
-		app.actionCreator.addImgWrapper({
-			initX: Math.floor((Math.random() * maxX)),
-			initY: Math.floor((Math.random() * maxY)),
-		});
+		if(count % 10 === 0){
+			app.actionCreator.addImgWrapper({
+				initX: Math.floor((Math.random() * maxX)),
+				initY: Math.floor((Math.random() * maxY)),
+			});
+		}
 		count --;
-	}, 10000);
+		app.actionCreator.updateTimer(count);
+	}, 1000);
 
 	// preload the images
 	var i, img, imgNum = 12;

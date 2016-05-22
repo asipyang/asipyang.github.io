@@ -3,7 +3,8 @@ app.act.ActionType = {
 	ADD_IMG_WRAPPER: "ADD_IMG_WRAPPER",
 	DISPLAY_ALL_IMG_WRAPPER: "DISPLAY_ALL_IMG_WRAPPER",
 	UPDATE_IMG_WRAPPER: "UPDATE_IMG_WRAPPER",
-	UPDATE_MAIN_CONTAINER: "UPDATE_MAIN_CONTAINER"
+	UPDATE_MAIN_CONTAINER: "UPDATE_MAIN_CONTAINER",
+	UPDATE_TIMER: "UPDATE_TIMER"
 };
 app.act.Action = function(type, title, data){
 	"use strict";
@@ -43,11 +44,16 @@ app.actionCreator = (function(){
 		dispatcher.sendAction(new app.act.Action(ActionType.UPDATE_MAIN_CONTAINER, ActionType.UPDATE_MAIN_CONTAINER, data));
 	};
 
+	var updateTimer = function(data){
+		dispatcher.sendAction(new app.act.Action(ActionType.UPDATE_TIMER, ActionType.UPDATE_TIMER, data));
+	};
+
 	return {
 		addImgWrapper: addImgWrapper,
 		clickToAddImgWrapper: clickToAddImgWrapper,
 		displayAllImgWrapper: displayAllImgWrapper,
 		updateImgWrapper: updateImgWrapper,
-		updateMainContainer: updateMainContainer
+		updateMainContainer: updateMainContainer,
+		updateTimer: updateTimer
 	};
 })();

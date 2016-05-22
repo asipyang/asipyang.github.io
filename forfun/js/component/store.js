@@ -69,8 +69,6 @@ app.store.MainContainer = function(dispatcher, listeners, ActionType){
 		var newStore = new app.store.ImgWrapper(initX, initY);
 		newStore._uid = ++uid;
 
-		console.log(newStore);
-
 		return newStore;
 	};
 
@@ -120,7 +118,6 @@ app.store.MainContainer = function(dispatcher, listeners, ActionType){
 
 		checkOverlap(imgWrapper);
 
-		console.log(imgWrapper);
 		imgWrapper.show = true;
 		triggerListeners();
 	};
@@ -188,4 +185,25 @@ app.store.ImgWrapper.prototype.validateXY = function(){
 		self.y1 = self.maxY;
 		self.y0 = self.y1 - self.height;
 	}
+};
+
+app.store.Timer = function(initTime, dispatcher, listeners, ActionType){
+	"use strict";
+	var self = this;
+	self.time = initTime;
+
+	var updateTimerHandler = function(action){
+		if(action.type !== ActionType.UPDATE_TIMER){return;}
+		self.time = action.data;
+
+		triggerListeners();
+	};
+
+	var triggerListeners = function(){
+		var i;
+		for(i=0; i < listeners.length; i++){
+			listeners[i]( self );
+		}
+	};
+	dispatcher.setCallback(updateTimerHandler);
 };

@@ -11,11 +11,15 @@ app.controller = (function(){
 		return [displayMainContainer];
 	};
 
+	var getTimerListeners = function(){
+		return [updateTimer];
+	};
+
 	var displayMainContainer = function(mainContainer){
 		var content = document.getElementById("content");
 		var container = document.createElement("div");
 		container.setAttribute("id","main-container");
-		// container.onclick = actionCreator.clickToAddImgWrapper;
+		container.onclick = actionCreator.clickToAddImgWrapper;
 
 		content.appendChild(container);
 
@@ -63,8 +67,13 @@ app.controller = (function(){
 		imgW.style.visibility = model.show? "visible" : "hidden";
 	};
 
+	var updateTimer = function(model){
+		document.getElementById("timer").textContent = model.time;
+	};
+
 	return {
 		getListeners: getListeners,
-		getMainListeners: getMainListeners
+		getMainListeners: getMainListeners,
+		getTimerListeners: getTimerListeners
 	};
 })();
