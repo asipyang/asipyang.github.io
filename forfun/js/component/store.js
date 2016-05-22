@@ -16,74 +16,37 @@ app.store.MainContainer = function(dispatcher, listeners, ActionType){
 		triggerListeners();
 	};
 
-	var checkOverlap = function(){
+	var checkOverlap = function(thisOne){
+		var queue = [thisOne];
 		var list = getImgWrappers();
+		var i, j, otherOne, oResult;
 
-		var hasChange1 = checkOverlapX(list);
-		var hasChange2 = checkOverlapY(list);
+		for(j=0; j < queue.length; j++){
+			thisOne = queue[j];
 
-		if(hasChange1 || hasChange2){
-			checkOverlap();
-		}
-	};
-	var checkOverlapX = function(orderedList){
-		var i, thisOne, lastOne, oResult, hasChange=false;
-
-		orderedList.sort(function(a,b){
-			return a.x0 > b.x0;
-		});
-
-		if(orderedList.length > 1){
-			thisOne = orderedList[0];
-			oResult = isOverlap(thisOne, orderedList[1]);
-			if(oResult){
-				thisOne.setXY(thisOne.x0-(thisOne.x1-orderedList[1].x0+1), thisOne.y0);
-				hasChange = true;
+			for(i=0; i < list.length; i++){
+				otherOne = list[i];
+				oResult = isOverlap(thisOne, otherOne);
+				if(thisOne._uid !== otherOne._uid && oResult){
+					if(oResult === "lt"){
+						otherOne.setXY(otherOne.x0 - (otherOne.x1 - thisOne.x0) -1, otherOne.y0);
+						if(otherOne.x0 === 0 && isOverlap(thisOne, otherOne)){
+							otherOne.setXY(otherOne.x0, otherOne.y0 - (otherOne.y1 - thisOne.y0) -1);
+						}
+					} else if(oResult === "rt"){
+						otherOne.setXY(otherOne.x0 + (thisOne.x1 - otherOne.x0) +1, otherOne.y0);
+					} else if(oResult === "lb"){
+						otherOne.setXY(otherOne.x0 - (otherOne.x1 - thisOne.x0) -1, otherOne.y0);
+						if(otherOne.x0 === 0 && isOverlap(thisOne, otherOne)){
+							otherOne.setXY(otherOne.x0, otherOne.y0 + (thisOne.y1 - otherOne.y0) +1);
+						}
+					} else if(oResult === "rb"){
+						otherOne.setXY(otherOne.x0 + (thisOne.x1 - otherOne.x0) +1, otherOne.y0);
+					}
+					queue.push(otherOne);
+				}
 			}
 		}
-		for(i=1; i < orderedList.length; i++){
-			thisOne = orderedList[i];
-			lastOne = orderedList[i-1];
-
-			oResult = isOverlap(lastOne, thisOne);
-			if(oResult){
-				console.log(lastOne._uid +" "+oResult+" "+thisOne._uid);
-				thisOne.setXY(lastOne.x1+1, thisOne.y0);
-				hasChange = true;
-			}
-		}
-
-		return hasChange;
-	};
-
-	var checkOverlapY = function(orderedList){
-		var i, thisOne, lastOne, oResult, hasChange=false;
-
-		orderedList.sort(function(a,b){
-			return a.y0 > b.y0;
-		});
-
-		if(orderedList.length > 1){
-			thisOne = orderedList[0];
-			oResult = isOverlap(thisOne, orderedList[1]);
-			if(oResult){
-				thisOne.setXY(thisOne.x0, thisOne.y0-(thisOne.y1-orderedList[1].y0+1));
-				hasChange = true;
-			}
-		}
-		for(i=1; i < orderedList.length; i++){
-			thisOne = orderedList[i];
-			lastOne = orderedList[i-1];
-
-			oResult = isOverlap(lastOne, thisOne);
-			if(oResult){
-				console.log(lastOne._uid +" "+oResult+" "+thisOne._uid);
-				thisOne.setXY(thisOne.x0, lastOne.y1+1);
-				hasChange = true;
-			}
-		}
-
-		return hasChange;
 	};
 
 	var isOverlap = function(a, b){
@@ -132,7 +95,7 @@ app.store.MainContainer = function(dispatcher, listeners, ActionType){
 		imgWrapper = imgWrapperMap[data._uid];
 		imgWrapper.setWidthHeight(data.width, data.height);
 
-		checkOverlap();
+		checkOverlap(imgWrapper);
 
 		console.log(imgWrapper);
 		triggerListeners();
