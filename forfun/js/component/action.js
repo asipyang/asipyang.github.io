@@ -18,8 +18,8 @@ app.actionCreator = (function(){
 
 	var addImgWrapper = function(event){
 		var data = {
-			initX: event.offsetX,
-			initY: event.offsetY
+			initX: event.layerX,
+			initY: event.layerY
 		};
 
 		dispatcher.sendAction(new app.act.Action(ActionType.ADD_IMG_WRAPPER, ActionType.ADD_IMG_WRAPPER, data));

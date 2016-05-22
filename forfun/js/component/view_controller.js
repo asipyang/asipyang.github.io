@@ -38,11 +38,15 @@ app.controller = (function(){
 
 		imgW.className += "img-wrapper";
 		imgW.style.transform = "translate("+model.x0+"px,"+model.y0+"px)";
+		imgW.textContent = model._uid;
 		container.appendChild(imgW);
 
 		imgWrapperMap[model._uid] = imgW;
 
 		actionCreator.updateImgWrapper({
+			_uid: model._uid,
+			x0: model.x0,
+			y0: model.y0,
 			width: imgW.offsetWidth,
 			height: imgW.offsetHeight
 		});
