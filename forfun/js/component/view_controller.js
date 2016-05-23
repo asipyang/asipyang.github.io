@@ -19,7 +19,7 @@ app.controller = (function(){
 		var content = document.getElementById("content");
 		var container = document.createElement("div");
 		container.setAttribute("id","main-container");
-		container.onclick = actionCreator.clickToAddImgWrapper;
+		// container.onclick = actionCreator.clickToAddImgWrapper;
 
 		content.appendChild(container);
 
