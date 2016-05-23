@@ -20,6 +20,10 @@ app.init = function(){
 		if(count === 0){
 			clearInterval(intervalId);
 			app.actionCreator.displayAllImgWrapper(true);
+
+			setInterval(function(){
+				app.actionCreator.autoMove();
+			},10);
 			return;
 		}
 

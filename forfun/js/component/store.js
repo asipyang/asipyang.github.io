@@ -131,10 +131,23 @@ app.store.MainContainer = function(dispatcher, listeners, ActionType){
 		self.height = data.height;
 	};
 
+	var autoMoveHandler = function(action){
+		if(action.type !== ActionType.AUTO_MOVE){return;}
+
+		var list = getImgWrappers();
+		var i;
+		for(i=0; i < list.length; i++){
+			list[i].moveAuto();
+		}
+
+		triggerListeners();
+	};
+
 	dispatcher.setCallback(addImgWrapperHandler);
 	dispatcher.setCallback(updateImgWrapperHandler);
 	dispatcher.setCallback(updateMainContainerHandler);
 	dispatcher.setCallback(displayAllImgWrapperHandler);
+	dispatcher.setCallback(autoMoveHandler);
 
 	self.width = 0;
 	self.height = 0;
@@ -148,6 +161,7 @@ app.store.ImgWrapper = function(initX, initY){
 	self.x0 = initX < 0? 0 : initX;
 	self.y0 = initY < 0? 0 : initY;
 	self.show = false;
+	self.moveDirection = Math.floor(Math.random()*4);
 };
 app.store.ImgWrapper.prototype.setWidthHeight = function(width, height, maxX, maxY){
 	"use strict";
@@ -184,6 +198,36 @@ app.store.ImgWrapper.prototype.validateXY = function(){
 	if(self.y1 > self.maxY){
 		self.y1 = self.maxY;
 		self.y0 = self.y1 - self.height;
+	}
+};
+app.store.ImgWrapper.prototype.moveAuto = function(){
+	"use strict";
+	var self = this;
+
+	if(self.moveDirection === 0){
+		// move to the left top
+		if(self.x0 === 0 && self.y0 === 0){self.moveDirection = 2;}
+		else if(self.x0 !== 0 && self.y0 === 0){self.moveDirection = 3;}
+		else if(self.x0 === 0 && self.y0 !== 0){self.moveDirection = 1;}
+		else {self.setXY(self.x0 - 1, self.y0 - 1);}
+	} else if(self.moveDirection === 1){
+		// move to the right top
+		if(self.x1 === self.maxX && self.y0 === 0){self.moveDirection = 3;}
+		else if(self.x1 !== self.maxX && self.y0 === 0){self.moveDirection = 2;}
+		else if(self.x1 === self.maxX && self.y0 !== 0){self.moveDirection = 0;}
+		else{self.setXY(self.x0 + 1, self.y0 - 1);}
+	} else if(self.moveDirection === 2){
+		// move to the right bottom
+		if(self.x1 === self.maxX && self.y1 === self.maxY){self.moveDirection = 0;}
+		else if(self.x1 !== self.maxX && self.y1 === self.maxY){self.moveDirection = 1;}
+		else if(self.x1 === self.maxX && self.y1 !== self.maxY){self.moveDirection = 3;}
+		else{self.setXY(self.x0 + 1, self.y0 + 1);}
+	} else if(self.moveDirection === 3){
+		// move to the left bottom
+		if(self.x0 === 0 && self.y1 === self.maxY){self.moveDirection = 1;}
+		else if(self.x0 !== 0 && self.y1 === self.maxY){self.moveDirection = 0;}
+		else if(self.x0 === 0 && self.y1 !== self.maxY){self.moveDirection = 2;}
+		else{self.setXY(self.x0 - 1, self.y0 + 1);}
 	}
 };
 
